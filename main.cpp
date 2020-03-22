@@ -67,14 +67,14 @@ std::string generate_bf_code(std::string code) {
 int main(int argc, char *argv[]) {
     if(argc < 2) {
         std::cerr << "引数にファイル名を入力してください" << std::endl;
-        return 0;
+        return 1;
     }
     std::string input_file_name = argv[1];
     std::string output_file_name = (argc >= 3 ? argv[2] : "a.bf");
     std::ifstream ifs(input_file_name);
     if(ifs.fail()) {
         std::cerr << input_file_name << "というファイルは存在しません" << std::endl;
-        return 0;
+        return 1;
     }
     
     std::string input, line;
