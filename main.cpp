@@ -6,6 +6,26 @@ bool is_digit(char c) {
     return '0' <= c && c <= '9';
 }
 
+// code内の \(文字) 形式のものを、その文字の文字コードに置き換える
+std::string replace_characters(std::string code) {
+    std::string ret;
+    for(int pos = 0; pos < code.size(); ++pos) {
+        int char_code = 256;
+        if(code[pos] == '\\' && pos+1 < code.size()) {
+            char_code = code[pos+1];
+            ++pos;
+        }
+
+        if(char_code == 256) {
+            ret += code[pos];
+        }
+        else {
+            ret += std::to_string(char_code);
+        }
+    }
+    return ret;
+}
+
 // codeに含まれる数字を変換する
 std::string replace_numbers(std::string code) {
     std::string ret;
@@ -38,8 +58,13 @@ std::string replace_numbers(std::string code) {
     return ret;
 }
 
+// replace_charactersを実行したあとにreplace_numbersを実行する
+std::string generate_bf_code(std::string code) {
+    return replace_numbers(replace_characters(code));
+}
+
 int main(int argc, char *argv[]) {
     std::string s = (argc >= 2 ? argv[1] : "");
-    std::cout << replace_numbers(s) << std::endl;
+    std::cout << generate_bf_code(s) << std::endl;
     return 0;
 }
